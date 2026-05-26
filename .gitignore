@@ -5,7 +5,7 @@
 *.txt
 !requirements.txt
 AGENTS.md
-
+CONTINUITY.md
 
 ### OS files
 Thumbs.db

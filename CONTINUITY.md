@@ -2,6 +2,7 @@
   - Implement a simple Flask dummy web app for demo deployments.
   - Add Docker image build/publish pipeline to GitHub Container Registry.
   - Update README.md in English with local and GHCR usage instructions.
+  - Add container debugging tools and convenience commands available from anywhere inside the container.
 - Constraints/Assumptions:
   - Communicate with the user in Russian.
   - Code comments, docstrings, log messages, and in-code explanations must be in English.
@@ -12,17 +13,21 @@
   - Flask app exposes GET / and returns HTML for browsers, plain text for non-browser clients.
   - Runtime port is 8000.
   - Docker image tag is ghcr.io/divlv/demowebapp:latest.
+  - Docker shell helper commands use LF line endings via .gitattributes.
 - State:
-  - Implementation complete; local Flask server is running for manual testing.
+  - Docker debugging tools and helper commands added; static validation complete.
 - Done:
   - Repository inspected; current tracked files are LICENSE and README.md.
   - Added Flask app, requirements, Dockerfile, .dockerignore, GitHub Actions workflow, and English README.
   - Updated .gitignore so requirements.txt is not ignored.
   - Validated Python syntax, Flask HTML/plain-text responses, and local server response.
+  - Added Docker debug packages: bash, curl, wget, nmap, net-tools, nc, ping, traceroute, dig, iproute2, iptables, jq, lsof, procps, less, nano, vim-tiny.
+  - Added container commands: getsize, ffind, ports, portsa, iptl, checkport, myip.
+  - Added .gitattributes to force LF endings for Docker/shell-related files.
 - Now:
   - Reporting results.
 - Next:
-  - User can inspect, commit, and push changes to trigger GitHub Actions.
+  - Docker build should be verified in GitHub Actions or on a machine with Docker installed.
 - Open questions (UNCONFIRMED if needed):
   - None.
 - Working set (files/ids/commands):
@@ -32,4 +37,6 @@
   - Dockerfile
   - .github/workflows/docker-publish.yml
   - README.md
+  - docker-bin/
+  - .gitattributes
   - Local server: http://127.0.0.1:8000, parent PID 33772, listener PID 29784

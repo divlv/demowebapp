@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -lt 2 ]; then
+  echo "Usage: checkport <host> <port> [extra-nc-options...]" >&2
+  exit 2
+fi
+
+nc -w5 -z -v "$@"

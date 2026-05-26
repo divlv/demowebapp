@@ -9,13 +9,43 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        bash \
+        bind9-dnsutils \
+        ca-certificates \
+        curl \
+        iproute2 \
+        iptables \
+        iputils-ping \
+        jq \
+        less \
+        lsof \
+        nano \
+        net-tools \
+        netcat-openbsd \
+        nmap \
+        procps \
+        traceroute \
+        vim-tiny \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
+COPY docker-bin/ /usr/local/bin/
 
 RUN groupadd --system app \
     && useradd --system --gid app --home /app app \
+    && chmod 0755 /usr/local/bin/getsize \
+        /usr/local/bin/ffind \
+        /usr/local/bin/ports \
+        /usr/local/bin/portsa \
+        /usr/local/bin/iptl \
+        /usr/local/bin/checkport \
+        /usr/local/bin/myip \
     && chown -R app:app /app
 USER app
 
