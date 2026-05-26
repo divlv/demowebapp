@@ -1,0 +1,15 @@
+.git
+.github
+.codex
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+logs
+.venv
+venv
+env
+agent_chatgpt_prompt.txt
+AGENTS.md
+CONTINUITY.md

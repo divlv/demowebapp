@@ -1,0 +1,35 @@
+- Goal (incl. success criteria):
+  - Implement a simple Flask dummy web app for demo deployments.
+  - Add Docker image build/publish pipeline to GitHub Container Registry.
+  - Update README.md in English with local and GHCR usage instructions.
+- Constraints/Assumptions:
+  - Communicate with the user in Russian.
+  - Code comments, docstrings, log messages, and in-code explanations must be in English.
+  - Keep the project simple and scoped.
+  - GHCR package may need to be made Public once in GitHub UI after first publish.
+  - Use temporary directory c:\tmp\codex\181839 for temporary session files.
+- Key decisions:
+  - Flask app exposes GET / and returns HTML for browsers, plain text for non-browser clients.
+  - Runtime port is 8000.
+  - Docker image tag is ghcr.io/divlv/demowebapp:latest.
+- State:
+  - Implementation complete; local Flask server is running for manual testing.
+- Done:
+  - Repository inspected; current tracked files are LICENSE and README.md.
+  - Added Flask app, requirements, Dockerfile, .dockerignore, GitHub Actions workflow, and English README.
+  - Updated .gitignore so requirements.txt is not ignored.
+  - Validated Python syntax, Flask HTML/plain-text responses, and local server response.
+- Now:
+  - Reporting results.
+- Next:
+  - User can inspect, commit, and push changes to trigger GitHub Actions.
+- Open questions (UNCONFIRMED if needed):
+  - None.
+- Working set (files/ids/commands):
+  - CONTINUITY.md
+  - app.py
+  - requirements.txt
+  - Dockerfile
+  - .github/workflows/docker-publish.yml
+  - README.md
+  - Local server: http://127.0.0.1:8000, parent PID 33772, listener PID 29784
