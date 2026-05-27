@@ -18,9 +18,9 @@ On every request, the application displays:
 
 For browser requests, `APP_THEME` changes the page color scheme:
 
-- `APP_THEME=1` - Ocean theme.
-- `APP_THEME=2` - Forest theme.
-- `APP_THEME=3` - Sunrise theme.
+- `APP_THEME=1` - Sky Cards: a light blue card-based layout.
+- `APP_THEME=2` - Crimson Console: a dark red table-based layout.
+- `APP_THEME=3` - Lime Signal: a bright green icon-list layout.
 - Any missing or unsupported value uses the default theme.
 
 ## Run Locally with Python

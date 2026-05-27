@@ -15,43 +15,59 @@ SENSITIVE_HEADERS = {"authorization", "cookie", "set-cookie", "x-api-key"}
 THEMES = {
     "default": {
         "name": "Default",
-        "background": "#f7f9fc",
+        "layout": "cards",
+        "background": "#f5f7fb",
         "surface": "#ffffff",
-        "text": "#172033",
-        "muted": "#5b6578",
-        "accent": "#2563eb",
-        "accent_soft": "#dbeafe",
-        "border": "#d9e1ee",
+        "surface_alt": "#eef2f8",
+        "text": "#162033",
+        "muted": "#60708a",
+        "accent": "#335cff",
+        "accent_2": "#00a3b5",
+        "accent_soft": "#dce6ff",
+        "border": "#cfdaea",
+        "shadow": "rgba(30, 49, 85, 0.16)",
     },
     "1": {
-        "name": "Ocean",
-        "background": "#eef8fb",
+        "name": "Sky Cards",
+        "layout": "cards",
+        "background": "#eaf7ff",
         "surface": "#ffffff",
-        "text": "#102a43",
-        "muted": "#52677a",
-        "accent": "#0077b6",
-        "accent_soft": "#caf0f8",
-        "border": "#b6dce6",
+        "surface_alt": "#d9f0ff",
+        "text": "#0b2545",
+        "muted": "#4d6884",
+        "accent": "#0077ff",
+        "accent_2": "#00b4d8",
+        "accent_soft": "#c8edff",
+        "border": "#9fd8ff",
+        "shadow": "rgba(0, 119, 255, 0.22)",
     },
     "2": {
-        "name": "Forest",
-        "background": "#f2f7f0",
-        "surface": "#ffffff",
-        "text": "#183a2e",
-        "muted": "#58685f",
-        "accent": "#2f7d32",
-        "accent_soft": "#dcefd8",
-        "border": "#c8dec2",
+        "name": "Crimson Console",
+        "layout": "table",
+        "background": "#16070b",
+        "surface": "#241014",
+        "surface_alt": "#35131a",
+        "text": "#fff1f2",
+        "muted": "#f4a7ae",
+        "accent": "#ff334e",
+        "accent_2": "#ff8a00",
+        "accent_soft": "#4a1620",
+        "border": "#7f1d2d",
+        "shadow": "rgba(255, 51, 78, 0.26)",
     },
     "3": {
-        "name": "Sunrise",
-        "background": "#fff7ed",
-        "surface": "#ffffff",
-        "text": "#3b2416",
-        "muted": "#716052",
-        "accent": "#c2410c",
-        "accent_soft": "#ffedd5",
-        "border": "#fed7aa",
+        "name": "Lime Signal",
+        "layout": "list",
+        "background": "#dcff3f",
+        "surface": "#f8ffe6",
+        "surface_alt": "#12220d",
+        "text": "#10230b",
+        "muted": "#38512f",
+        "accent": "#00a82d",
+        "accent_2": "#101f0b",
+        "accent_soft": "#baff7a",
+        "border": "#53c926",
+        "shadow": "rgba(16, 35, 11, 0.24)",
     },
 }
 
@@ -65,11 +81,14 @@ HTML_TEMPLATE = """<!doctype html>
     :root {
       --background: {{ theme.background }};
       --surface: {{ theme.surface }};
+      --surface-alt: {{ theme.surface_alt }};
       --text: {{ theme.text }};
       --muted: {{ theme.muted }};
       --accent: {{ theme.accent }};
+      --accent-2: {{ theme.accent_2 }};
       --accent-soft: {{ theme.accent_soft }};
       --border: {{ theme.border }};
+      --shadow: {{ theme.shadow }};
     }
 
     * {
@@ -81,15 +100,77 @@ HTML_TEMPLATE = """<!doctype html>
       min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0)),
-        var(--background);
+      background: var(--background);
     }
 
     main {
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
       padding: 56px 0;
+    }
+
+    body.theme-1 {
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0) 42%),
+        repeating-linear-gradient(135deg, rgba(0, 119, 255, 0.08) 0 2px, transparent 2px 18px),
+        var(--background);
+    }
+
+    body.theme-2 {
+      background:
+        linear-gradient(90deg, rgba(255, 51, 78, 0.2), transparent 38%),
+        repeating-linear-gradient(0deg, rgba(255, 138, 0, 0.08) 0 1px, transparent 1px 34px),
+        var(--background);
+    }
+
+    body.theme-3 {
+      background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.5), transparent 30%),
+        repeating-linear-gradient(90deg, rgba(16, 35, 11, 0.1) 0 1px, transparent 1px 28px),
+        var(--background);
+    }
+
+    .app-shell {
+      position: relative;
+    }
+
+    .app-shell::before,
+    .app-shell::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .app-shell::before {
+      top: 24px;
+      right: 28px;
+      width: min(30vw, 280px);
+      height: 10px;
+      background: var(--accent);
+      box-shadow: 0 20px 0 var(--accent-2), 0 40px 0 var(--accent-soft);
+    }
+
+    .app-shell::after {
+      bottom: 24px;
+      left: 28px;
+      width: 180px;
+      height: 180px;
+      border: 1px solid var(--border);
+      transform: rotate(12deg);
+      opacity: 0.45;
+    }
+
+    .theme-2 .app-shell::after {
+      border-width: 2px;
+      box-shadow: inset 0 0 0 18px rgba(255, 51, 78, 0.08);
+    }
+
+    .theme-3 .app-shell::after {
+      width: 220px;
+      height: 90px;
+      border-color: var(--accent-2);
+      transform: skewX(-15deg);
     }
 
     .hero {
@@ -102,10 +183,13 @@ HTML_TEMPLATE = """<!doctype html>
 
     .intro,
     .panel,
-    .detail-card {
-      background: color-mix(in srgb, var(--surface) 92%, transparent);
+    .detail-card,
+    .metric-card,
+    .data-table-wrap,
+    .signal-list {
+      background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: 0 20px 60px rgba(27, 39, 61, 0.08);
+      box-shadow: 0 24px 70px var(--shadow);
     }
 
     .intro {
@@ -117,11 +201,30 @@ HTML_TEMPLATE = """<!doctype html>
       justify-content: space-between;
     }
 
+    .theme-1 .intro {
+      border-left: 9px solid var(--accent);
+      box-shadow: 16px 16px 0 var(--accent-soft), 0 24px 70px var(--shadow);
+    }
+
+    .theme-2 .intro {
+      min-height: 300px;
+      background: linear-gradient(135deg, var(--surface), #110508);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 0 1px rgba(255, 51, 78, 0.35), 0 26px 80px var(--shadow);
+    }
+
+    .theme-3 .intro {
+      min-height: 300px;
+      background: var(--surface);
+      border: 3px solid var(--accent-2);
+      box-shadow: 12px 12px 0 var(--accent-2), 0 24px 70px var(--shadow);
+    }
+
     .eyebrow {
       display: inline-flex;
       width: fit-content;
       padding: 7px 11px;
-      border-radius: 999px;
+      border-radius: 8px;
       color: var(--accent);
       background: var(--accent-soft);
       font-size: 13px;
@@ -136,12 +239,28 @@ HTML_TEMPLATE = """<!doctype html>
       letter-spacing: 0;
     }
 
+    .theme-2 h1 {
+      color: #ffffff;
+      text-shadow: 0 0 28px rgba(255, 51, 78, 0.34);
+    }
+
+    .theme-3 h1 {
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 var(--accent-soft);
+    }
+
     .lead {
       max-width: 640px;
       margin: 0;
       color: var(--muted);
       font-size: 18px;
       line-height: 1.7;
+    }
+
+    .theme-2 .lead,
+    .theme-2 .label,
+    .theme-2 .row dt {
+      color: var(--muted);
     }
 
     .quick-facts {
@@ -156,7 +275,8 @@ HTML_TEMPLATE = """<!doctype html>
       padding: 16px;
       border: 1px solid var(--border);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.54);
+      background: var(--surface-alt);
+      box-shadow: inset 0 -3px 0 var(--accent);
     }
 
     .label {
@@ -172,6 +292,46 @@ HTML_TEMPLATE = """<!doctype html>
       overflow-wrap: anywhere;
       font-size: 15px;
       font-weight: 700;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .metric-card {
+      min-width: 0;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .metric-icon,
+    .list-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 10px 24px var(--shadow);
     }
 
     .panel {
@@ -223,6 +383,117 @@ HTML_TEMPLATE = """<!doctype html>
       border-radius: 8px;
     }
 
+    .table-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .data-table-wrap {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 14px;
+    }
+
+    .data-table caption {
+      padding: 22px 24px;
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--accent), var(--surface-alt));
+      font-size: 20px;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .data-table th {
+      width: 28%;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .data-table td.group {
+      width: 18%;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .terminal-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 10px);
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .terminal-strip span {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: var(--accent);
+      box-shadow: 18px 0 0 var(--accent-2);
+    }
+
+    .list-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+      gap: 30px;
+      align-items: start;
+    }
+
+    .signal-list {
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-alt);
+      border: 3px solid var(--accent-2);
+    }
+
+    .signal-item {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 16px;
+      padding: 18px;
+      border-bottom: 1px solid rgba(248, 255, 230, 0.18);
+      color: #f8ffe6;
+    }
+
+    .signal-item:last-child {
+      border-bottom: 0;
+    }
+
+    .signal-item .label,
+    .signal-item .value {
+      color: #f8ffe6;
+    }
+
+    .signal-item .label {
+      margin-bottom: 4px;
+      opacity: 0.78;
+    }
+
+    .signal-item .list-icon {
+      margin: 0;
+      color: var(--accent-2);
+      background: var(--accent-soft);
+      box-shadow: none;
+    }
+
     @media (max-width: 860px) {
       main {
         width: min(100% - 24px, 720px);
@@ -230,7 +501,9 @@ HTML_TEMPLATE = """<!doctype html>
       }
 
       .hero,
-      .details {
+      .details,
+      .table-layout,
+      .list-layout {
         grid-template-columns: 1fr;
       }
 
@@ -239,7 +512,8 @@ HTML_TEMPLATE = """<!doctype html>
         padding: 28px;
       }
 
-      .quick-facts {
+      .quick-facts,
+      .metric-grid {
         grid-template-columns: 1fr;
       }
 
@@ -250,8 +524,85 @@ HTML_TEMPLATE = """<!doctype html>
     }
   </style>
 </head>
-<body>
-  <main>
+<body class="theme-{{ theme_key }}">
+  <main class="app-shell">
+    {% if layout == "table" %}
+    <section class="table-layout">
+      <div class="intro">
+        <div>
+          <div class="terminal-strip"><span></span></div>
+          <span class="eyebrow">Container Runtime Console</span>
+          <h1>{{ app_title }}</h1>
+          <p class="lead">A dark operational view for checking request and deployment values inside a running container.</p>
+        </div>
+        <div class="quick-facts">
+          <div class="fact">
+            <div class="label">Domain</div>
+            <div class="value">{{ domain }}</div>
+          </div>
+          <div class="fact">
+            <div class="label">Theme</div>
+            <div class="value">{{ theme_name }}</div>
+          </div>
+          <div class="fact">
+            <div class="label">Requested</div>
+            <div class="value">{{ requested_at }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <caption>Runtime Data</caption>
+          <tbody>
+            {% for item in all_items %}
+            <tr>
+              <td class="group">{{ item.group }}</td>
+              <th scope="row">{{ item.label }}</th>
+              <td>{{ item.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% elif layout == "list" %}
+    <section class="list-layout">
+      <div class="intro">
+        <div>
+          <span class="eyebrow">Live Container Signal</span>
+          <h1>{{ app_title }}</h1>
+          <p class="lead">A high-contrast status board with compact request facts and deployment values.</p>
+        </div>
+        <div class="quick-facts">
+          <div class="fact">
+            <div class="label">Domain</div>
+            <div class="value">{{ domain }}</div>
+          </div>
+          <div class="fact">
+            <div class="label">Theme</div>
+            <div class="value">{{ theme_name }}</div>
+          </div>
+          <div class="fact">
+            <div class="label">Requested</div>
+            <div class="value">{{ requested_at }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="signal-list">
+        {% for item in all_items %}
+        <div class="signal-item">
+          <span class="list-icon">{{ item.icon }}</span>
+          <div>
+            <div class="label">{{ item.group }} / {{ item.label }}</div>
+            <div class="value">{{ item.value }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}
     <section class="hero">
       <div class="intro">
         <div>
@@ -288,6 +639,16 @@ HTML_TEMPLATE = """<!doctype html>
       </aside>
     </section>
 
+    <section class="metric-grid">
+      {% for item in summary %}
+      <div class="metric-card">
+        <span class="metric-icon">{{ item.icon }}</span>
+        <div class="label">{{ item.label }}</div>
+        <div class="value">{{ item.value }}</div>
+      </div>
+      {% endfor %}
+    </section>
+
     <section class="details">
       <div class="detail-card">
         <h2>Browser Request</h2>
@@ -312,6 +673,7 @@ HTML_TEMPLATE = """<!doctype html>
         </dl>
       </div>
     </section>
+    {% endif %}
   </main>
 </body>
 </html>
@@ -435,33 +797,97 @@ def render_html(info: dict[str, str]) -> str:
     theme = THEMES[info["theme_key"]]
     safe_info = {key: escape(value) for key, value in info.items()}
     summary = [
-        {"label": "Domain", "value": safe_info["domain"]},
-        {"label": "APP_TITLE", "value": safe_info["app_title"]},
-        {"label": "APP_THEME", "value": safe_info["app_theme"]},
-        {"label": "Request Time", "value": safe_info["requested_at"]},
+        {
+            "group": "Summary",
+            "icon": "DNS",
+            "label": "Domain",
+            "value": safe_info["domain"],
+        },
+        {
+            "group": "Summary",
+            "icon": "ENV",
+            "label": "APP_TITLE",
+            "value": safe_info["app_title"],
+        },
+        {
+            "group": "Summary",
+            "icon": "THM",
+            "label": "APP_THEME",
+            "value": safe_info["app_theme"],
+        },
+        {
+            "group": "Summary",
+            "icon": "UTC",
+            "label": "Request Time",
+            "value": safe_info["requested_at"],
+        },
     ]
     browser = [
-        {"label": "User Agent", "value": safe_info["user_agent"]},
-        {"label": "Accept", "value": safe_info["accept"]},
-        {"label": "Language", "value": safe_info["accept_language"]},
-        {"label": "Remote IP", "value": safe_info["remote_addr"]},
+        {
+            "group": "Browser",
+            "icon": "UA",
+            "label": "User Agent",
+            "value": safe_info["user_agent"],
+        },
+        {
+            "group": "Browser",
+            "icon": "ACC",
+            "label": "Accept",
+            "value": safe_info["accept"],
+        },
+        {
+            "group": "Browser",
+            "icon": "LAN",
+            "label": "Language",
+            "value": safe_info["accept_language"],
+        },
+        {
+            "group": "Browser",
+            "icon": "IP",
+            "label": "Remote IP",
+            "value": safe_info["remote_addr"],
+        },
     ]
     deployment = [
-        {"label": "Theme", "value": safe_info["theme_name"]},
-        {"label": "Method", "value": safe_info["method"]},
-        {"label": "Path", "value": safe_info["path"]},
-        {"label": "Scheme", "value": safe_info["scheme"]},
+        {
+            "group": "Deploy",
+            "icon": "CLR",
+            "label": "Theme",
+            "value": safe_info["theme_name"],
+        },
+        {
+            "group": "Deploy",
+            "icon": "GET",
+            "label": "Method",
+            "value": safe_info["method"],
+        },
+        {
+            "group": "Deploy",
+            "icon": "URL",
+            "label": "Path",
+            "value": safe_info["path"],
+        },
+        {
+            "group": "Deploy",
+            "icon": "TLS",
+            "label": "Scheme",
+            "value": safe_info["scheme"],
+        },
     ]
+    all_items = [*summary, *browser, *deployment]
 
     return app.jinja_env.from_string(HTML_TEMPLATE).render(
         app_title=safe_info["app_title"],
         domain=safe_info["domain"],
         requested_at=safe_info["requested_at"],
         theme=theme,
+        theme_key=safe_info["theme_key"],
+        layout=theme["layout"],
         theme_name=safe_info["theme_name"],
         summary=summary,
         browser=browser,
         deployment=deployment,
+        all_items=all_items,
     )
 
 

@@ -3,6 +3,7 @@
   - Add Docker image build/publish pipeline to GitHub Container Registry.
   - Update README.md in English with local and GHCR usage instructions.
   - Add container debugging tools and convenience commands available from anywhere inside the container.
+  - Make browser themes visually distinct with different layouts, stronger colors, and decorative UI elements.
 - Constraints/Assumptions:
   - Communicate with the user in Russian.
   - Code comments, docstrings, log messages, and in-code explanations must be in English.
@@ -14,8 +15,9 @@
   - Runtime port is 8000.
   - Docker image tag is ghcr.io/divlv/demowebapp:latest.
   - Docker shell helper commands use LF line endings via .gitattributes.
+  - Theme 1: light blue card layout; Theme 2: dark red table layout; Theme 3: bright green icon-list layout.
 - State:
-  - Docker debugging tools and helper commands added; static validation complete.
+  - Theme layout/design update complete; local server is running with APP_THEME=1.
 - Done:
   - Repository inspected; current tracked files are LICENSE and README.md.
   - Added Flask app, requirements, Dockerfile, .dockerignore, GitHub Actions workflow, and English README.
@@ -24,10 +26,13 @@
   - Added Docker debug packages: bash, curl, wget, nmap, net-tools, nc, ping, traceroute, dig, iproute2, iptables, jq, lsof, procps, less, nano, vim-tiny.
   - Added container commands: getsize, ffind, ports, portsa, iptl, checkport, myip.
   - Added .gitattributes to force LF endings for Docker/shell-related files.
+  - Updated browser themes: Theme 1 card layout, Theme 2 dark table layout, Theme 3 icon-list layout.
+  - Validated all theme layouts and plain-text curl response with Flask test client.
+  - Updated README theme descriptions.
 - Now:
   - Reporting results.
 - Next:
-  - Docker build should be verified in GitHub Actions or on a machine with Docker installed.
+  - User can inspect the page locally and commit changes.
 - Open questions (UNCONFIRMED if needed):
   - None.
 - Working set (files/ids/commands):
@@ -39,4 +44,4 @@
   - README.md
   - docker-bin/
   - .gitattributes
-  - Local server: http://127.0.0.1:8000, parent PID 33772, listener PID 29784
+  - Local server: http://127.0.0.1:8000, parent PID 25060, listener PID 29512
