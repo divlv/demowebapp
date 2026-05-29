@@ -4,6 +4,7 @@
   - Update README.md in English with local and GHCR usage instructions.
   - Add container debugging tools and convenience commands available from anywhere inside the container.
   - Make browser themes visually distinct with different layouts, stronger colors, and decorative UI elements.
+  - Add a manually triggered GitHub Actions workflow to build and publish the Docker image to Azure Container Registry.
 - Constraints/Assumptions:
   - Communicate with the user in Russian.
   - Code comments, docstrings, log messages, and in-code explanations must be in English.
@@ -14,10 +15,12 @@
   - Flask app exposes GET / and returns HTML for browsers, plain text for non-browser clients.
   - Runtime port is 8000.
   - Docker image tag is ghcr.io/divlv/demowebapp:latest.
+  - ACR image tag defaults to ${{ secrets.ACR_REGISTRY }}/demowebapp:latest via manual workflow input.
+  - ACR workflow uses repository secrets ACR_REGISTRY, ACR_USERNAME, and ACR_PASSWORD.
   - Docker shell helper commands use LF line endings via .gitattributes.
   - Theme 1: light blue card layout; Theme 2: dark red table layout; Theme 3: bright green icon-list layout.
 - State:
-  - Theme layout/design update complete; local server is running with APP_THEME=1.
+  - Manual ACR publish workflow added and statically checked.
 - Done:
   - Repository inspected; current tracked files are LICENSE and README.md.
   - Added Flask app, requirements, Dockerfile, .dockerignore, GitHub Actions workflow, and English README.
@@ -29,10 +32,11 @@
   - Updated browser themes: Theme 1 card layout, Theme 2 dark table layout, Theme 3 icon-list layout.
   - Validated all theme layouts and plain-text curl response with Flask test client.
   - Updated README theme descriptions.
+  - Added .github/workflows/docker-publish-acr.yml with workflow_dispatch only.
 - Now:
   - Reporting results.
 - Next:
-  - User can inspect the page locally and commit changes.
+  - User adds ACR_REGISTRY, ACR_USERNAME, ACR_PASSWORD repository secrets and runs the workflow manually.
 - Open questions (UNCONFIRMED if needed):
   - None.
 - Working set (files/ids/commands):
@@ -41,6 +45,7 @@
   - requirements.txt
   - Dockerfile
   - .github/workflows/docker-publish.yml
+  - .github/workflows/docker-publish-acr.yml
   - README.md
   - docker-bin/
   - .gitattributes
