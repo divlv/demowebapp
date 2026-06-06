@@ -5,6 +5,7 @@
   - Add container debugging tools and convenience commands available from anywhere inside the container.
   - Make browser themes visually distinct with different layouts, stronger colors, and decorative UI elements.
   - Add a manually triggered GitHub Actions workflow to build and publish the Docker image to Azure Container Registry.
+  - Add GET /_stcore/health for Azure Container Apps startup, readiness, and liveness probes.
 - Constraints/Assumptions:
   - Communicate with the user in Russian.
   - Code comments, docstrings, log messages, and in-code explanations must be in English.
@@ -17,10 +18,11 @@
   - Docker image tag is ghcr.io/divlv/demowebapp:latest.
   - ACR image tag defaults to ${{ secrets.ACR_REGISTRY }}/demowebapp:latest via manual workflow input.
   - ACR workflow uses repository secrets ACR_REGISTRY, ACR_USERNAME, and ACR_PASSWORD.
+  - Health endpoint returns HTTP 200 JSON with status, process uptime, and application version 1.0.0.
   - Docker shell helper commands use LF line endings via .gitattributes.
   - Theme 1: light blue card layout; Theme 2: dark red table layout; Theme 3: bright green icon-list layout.
 - State:
-  - Manual ACR publish workflow added and statically checked.
+  - Azure Container Apps health endpoint implemented and validated.
 - Done:
   - Repository inspected; current tracked files are LICENSE and README.md.
   - Added Flask app, requirements, Dockerfile, .dockerignore, GitHub Actions workflow, and English README.
@@ -33,10 +35,12 @@
   - Validated all theme layouts and plain-text curl response with Flask test client.
   - Updated README theme descriptions.
   - Added .github/workflows/docker-publish-acr.yml with workflow_dispatch only.
+  - Added GET /_stcore/health returning HTTP 200 JSON with healthy status, process uptime, and version 1.0.0.
+  - Validated health JSON contract and confirmed the existing plain-text root response still works.
 - Now:
   - Reporting results.
 - Next:
-  - User adds ACR_REGISTRY, ACR_USERNAME, ACR_PASSWORD repository secrets and runs the workflow manually.
+  - Deploy the updated image and use /_stcore/health for Azure Container Apps probes.
 - Open questions (UNCONFIRMED if needed):
   - None.
 - Working set (files/ids/commands):

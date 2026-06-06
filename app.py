@@ -2,13 +2,16 @@ import logging
 import os
 import random
 import string
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from flask import Flask, Response, request
+from flask import Flask, Response, jsonify, request
 from markupsafe import escape
 
 
+APPLICATION_VERSION = "1.0.0"
+PROCESS_STARTED_AT = time.monotonic()
 RUN_ID = "".join(random.choices(string.ascii_lowercase + string.digits, k=7))
 SENSITIVE_HEADERS = {"authorization", "cookie", "set-cookie", "x-api-key"}
 
@@ -793,6 +796,23 @@ def render_text(info: dict[str, str]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def format_uptime(total_seconds: int) -> str:
+    """Format process uptime as a compact human-readable duration."""
+    days, remaining = divmod(total_seconds, 86_400)
+    hours, remaining = divmod(remaining, 3_600)
+    minutes, seconds = divmod(remaining, 60)
+
+    parts = []
+    if days:
+        parts.append(f"{days}d")
+    if hours or days:
+        parts.append(f"{hours}h")
+    if minutes or hours or days:
+        parts.append(f"{minutes}m")
+    parts.append(f"{seconds}s")
+    return " ".join(parts)
+
+
 def render_html(info: dict[str, str]) -> str:
     theme = THEMES[info["theme_key"]]
     safe_info = {key: escape(value) for key, value in info.items()}
@@ -911,5 +931,29 @@ def index() -> Response:
     return response
 
 
+@app.get("/_stcore/health")
+def health() -> Response:
+    """Return process health information for container platform probes."""
+    headers = redact_headers(dict(request.headers))
+    logger.info("Health request headers: %s", headers)
+    logger.info("Health request query parameters: %s", dict(request.args))
+    logger.info("Health request body: %s", request.get_data(as_text=True) or "")
+
+    uptime_seconds = max(0, int(time.monotonic() - PROCESS_STARTED_AT))
+    payload = {
+        "status": "healthy",
+        "uptime": format_uptime(uptime_seconds),
+        "version": APPLICATION_VERSION,
+    }
+    response = jsonify(payload)
+    logger.info("Health response status: %s", response.status)
+    logger.info("Health response headers: %s", dict(response.headers))
+    logger.info("Health response body: %s", response.get_data(as_text=True))
+    return response
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
+
+
+# code-documentation-2026-06-06T14:48:19+03:00
